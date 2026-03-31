@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -74,55 +73,52 @@ class AllocationServiceTest {
 
     @Test
     void getParentDroitAllocation_whenOnlyParent1Active_returnsParent1() {
-        Map<String, Object> params = Map.of(
-                "parent1ActiviteLucrative", (Object) true,
-                "parent2ActiviteLucrative", false,
-                "parent1Salaire", BigDecimal.valueOf(3000),
-                "parent2Salaire", BigDecimal.valueOf(2000)
-        );
-        assertThat(allocationService.getParentDroitAllocation(params)).isEqualTo("Parent1");
+        ParentDroitAllocationRequest request = new ParentDroitAllocationRequest();
+        request.setParent1ActiviteLucrative(true);
+        request.setParent2ActiviteLucrative(false);
+        request.setParent1Salaire(BigDecimal.valueOf(3000));
+        request.setParent2Salaire(BigDecimal.valueOf(2000));
+        assertThat(allocationService.getParentDroitAllocation(request)).isEqualTo("Parent1");
     }
 
     @Test
     void getParentDroitAllocation_whenOnlyParent2Active_returnsParent2() {
-        Map<String, Object> params = Map.of(
-                "parent1ActiviteLucrative", (Object) false,
-                "parent2ActiviteLucrative", true,
-                "parent1Salaire", BigDecimal.valueOf(3000),
-                "parent2Salaire", BigDecimal.valueOf(2000)
-        );
-        assertThat(allocationService.getParentDroitAllocation(params)).isEqualTo("Parent2");
+        ParentDroitAllocationRequest request = new ParentDroitAllocationRequest();
+        request.setParent1ActiviteLucrative(false);
+        request.setParent2ActiviteLucrative(true);
+        request.setParent1Salaire(BigDecimal.valueOf(3000));
+        request.setParent2Salaire(BigDecimal.valueOf(2000));
+        assertThat(allocationService.getParentDroitAllocation(request)).isEqualTo("Parent2");
     }
 
     @Test
     void getParentDroitAllocation_whenBothActive_parent1HigherSalary_returnsParent1() {
-        Map<String, Object> params = Map.of(
-                "parent1ActiviteLucrative", (Object) true,
-                "parent2ActiviteLucrative", true,
-                "parent1Salaire", BigDecimal.valueOf(4000),
-                "parent2Salaire", BigDecimal.valueOf(3000)
-        );
-        assertThat(allocationService.getParentDroitAllocation(params)).isEqualTo("Parent1");
+        ParentDroitAllocationRequest request = new ParentDroitAllocationRequest();
+        request.setParent1ActiviteLucrative(true);
+        request.setParent2ActiviteLucrative(true);
+        request.setParent1Salaire(BigDecimal.valueOf(4000));
+        request.setParent2Salaire(BigDecimal.valueOf(3000));
+        assertThat(allocationService.getParentDroitAllocation(request)).isEqualTo("Parent1");
     }
 
     @Test
     void getParentDroitAllocation_whenBothActive_parent2HigherSalary_returnsParent2() {
-        Map<String, Object> params = Map.of(
-                "parent1ActiviteLucrative", (Object) true,
-                "parent2ActiviteLucrative", true,
-                "parent1Salaire", BigDecimal.valueOf(2000),
-                "parent2Salaire", BigDecimal.valueOf(5000)
-        );
-        assertThat(allocationService.getParentDroitAllocation(params)).isEqualTo("Parent2");
+        ParentDroitAllocationRequest request = new ParentDroitAllocationRequest();
+        request.setParent1ActiviteLucrative(true);
+        request.setParent2ActiviteLucrative(true);
+        request.setParent1Salaire(BigDecimal.valueOf(2000));
+        request.setParent2Salaire(BigDecimal.valueOf(5000));
+        assertThat(allocationService.getParentDroitAllocation(request)).isEqualTo("Parent2");
     }
 
     @Test
     void getParentDroitAllocation_whenNoneActive_returnsParent2ByDefault() {
-        Map<String, Object> params = Map.of(
-                "parent1ActiviteLucrative", (Object) false,
-                "parent2ActiviteLucrative", false
-        );
-        assertThat(allocationService.getParentDroitAllocation(params)).isEqualTo("Parent2");
+        ParentDroitAllocationRequest request = new ParentDroitAllocationRequest();
+        request.setParent1ActiviteLucrative(false);
+        request.setParent2ActiviteLucrative(false);
+        request.setParent1Salaire(BigDecimal.ZERO);
+        request.setParent2Salaire(BigDecimal.ZERO);
+        assertThat(allocationService.getParentDroitAllocation(request)).isEqualTo("Parent2");
     }
 
 }

@@ -3,53 +3,42 @@ package ch.hearc.cafheg.domain.allocations;
 import ch.hearc.cafheg.infrastructure.persistence.AllocataireMapper;
 import ch.hearc.cafheg.infrastructure.persistence.AllocationMapper;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
+
 
 public class AllocationService {
 
-  private static final String PARENT_1 = "Parent1";
-  private static final String PARENT_2 = "Parent2";
+    private static final String PARENT_1 = "Parent1";
+    private static final String PARENT_2 = "Parent2";
 
-  private final AllocataireMapper allocataireMapper;
-  private final AllocationMapper allocationMapper;
+    private final AllocataireMapper allocataireMapper;
+    private final AllocationMapper allocationMapper;
 
-  public AllocationService(
-      AllocataireMapper allocataireMapper,
-      AllocationMapper allocationMapper) {
-    this.allocataireMapper = allocataireMapper;
-    this.allocationMapper = allocationMapper;
-  }
-
-  public List<Allocataire> findAllAllocataires(String likeNom) {
-    System.out.println("Rechercher tous les allocataires");
-    return allocataireMapper.findAll(likeNom);
-  }
-
-  public List<Allocation> findAllocationsActuelles() {
-    return allocationMapper.findAll();
-  }
-
-  public String getParentDroitAllocation(Map<String, Object> parameters) {
-    System.out.println("Déterminer quel parent a le droit aux allocations");
-    String eR = (String)parameters.getOrDefault("enfantResidence", "");
-    Boolean p1AL = (Boolean)parameters.getOrDefault("parent1ActiviteLucrative", false);
-    String p1Residence = (String)parameters.getOrDefault("parent1Residence", "");
-    Boolean p2AL = (Boolean)parameters.getOrDefault("parent2ActiviteLucrative", false);
-    String p2Residence = (String)parameters.getOrDefault("parent2Residence", "");
-    Boolean pEnsemble = (Boolean)parameters.getOrDefault("parentsEnsemble", false);
-    Number salaireP1 = (Number) parameters.getOrDefault("parent1Salaire", BigDecimal.ZERO);
-    Number salaireP2 = (Number) parameters.getOrDefault("parent2Salaire", BigDecimal.ZERO);
-
-    if(p1AL && !p2AL) {
-      return PARENT_1;
+    public AllocationService(
+            AllocataireMapper allocataireMapper,
+            AllocationMapper allocationMapper) {
+        this.allocataireMapper = allocataireMapper;
+        this.allocationMapper = allocationMapper;
     }
 
-    if(p2AL && !p1AL) {
-      return PARENT_2;
+    public List<Allocataire> findAllAllocataires(String likeNom) {
+        System.out.println("Rechercher tous les allocataires");
+        return allocataireMapper.findAll(likeNom);
     }
 
-    return salaireP1.doubleValue() > salaireP2.doubleValue() ? PARENT_1 : PARENT_2;
-  }
+    public List<Allocation> findAllocationsActuelles() {
+        return allocationMapper.findAll();
+    }
+
+    public String getParentDroitAllocation(ParentDroitAllocationRequest request) {
+        System.out.println("Déterminer quel parent a le droit aux allocations");
+
+        if (request.isParent1ActiviteLucrative() && !request.isParent2ActiviteLucrative()) {
+            return PARENT_1;
+        }
+        if (request.isParent2ActiviteLucrative() && !request.isParent1ActiviteLucrative()) {
+            return PARENT_2;
+        }
+        return request.getParent1Salaire().compareTo(request.getParent2Salaire()) > 0 ? PARENT_1 : PARENT_2;
+    }
 }

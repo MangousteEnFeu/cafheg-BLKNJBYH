@@ -3,6 +3,7 @@ package ch.hearc.cafheg.infrastructure.web;
 import ch.hearc.cafheg.domain.allocations.Allocataire;
 import ch.hearc.cafheg.domain.allocations.Allocation;
 import ch.hearc.cafheg.domain.allocations.AllocationService;
+import ch.hearc.cafheg.domain.allocations.ParentDroitAllocationRequest;
 import ch.hearc.cafheg.domain.versements.VersementService;
 import ch.hearc.cafheg.infrastructure.pdf.PDFExporter;
 import ch.hearc.cafheg.infrastructure.persistence.AllocataireMapper;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import static ch.hearc.cafheg.infrastructure.persistence.Database.inTransaction;
 
@@ -31,7 +31,7 @@ public class RESTController {
     public RESTController() {
         this.allocationService = new AllocationService(new AllocataireMapper(), new AllocationMapper());
         this.versementService = new VersementService(new VersementMapper(), new AllocataireMapper(),
-                                                     new PDFExporter(new EnfantMapper())
+                new PDFExporter(new EnfantMapper())
         );
     }
 
@@ -49,8 +49,8 @@ public class RESTController {
     }
      */
     @PostMapping("/droits/quel-parent")
-    public String getParentDroitAllocation(@RequestBody Map<String, Object> params) {
-        return inTransaction(() -> allocationService.getParentDroitAllocation(params));
+    public String getParentDroitAllocation(@RequestBody ParentDroitAllocationRequest request) {
+        return inTransaction(() -> allocationService.getParentDroitAllocation(request));
     }
 
     @GetMapping("/allocataires")
