@@ -70,4 +70,62 @@ public class AllocataireMapper extends Mapper {
       throw new RuntimeException(e);
     }
   }
+
+    public Allocataire findByNoAVS(String noAVS) {
+    Connection connection = activeJDBCConnection();
+    try {
+      PreparedStatement preparedStatement = connection.prepareStatement(
+          "SELECT NO_AVS, NOM, PRENOM FROM ALLOCATAIRES WHERE NO_AVS=?");
+      preparedStatement.setString(1, noAVS);
+      ResultSet resultSet = preparedStatement.executeQuery();
+      if (resultSet.next()) {
+        return new Allocataire(new NoAVS(resultSet.getString(1)),
+            resultSet.getString(2), resultSet.getString(3));
+      }
+      return null;
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public boolean hasVersements(String noAVS) {
+    Connection connection = activeJDBCConnection();
+    try {
+      PreparedStatement preparedStatement = connection.prepareStatement(
+          "SELECT COUNT(*) FROM VERSEMENTS V JOIN ALLOCATAIRES A ON A.NUMERO=V.FK_ALLOCATAIRES WHERE A.NO_AVS=?");
+      preparedStatement.setString(1, noAVS);
+      ResultSet resultSet = preparedStatement.executeQuery();
+      resultSet.next();
+      return resultSet.getInt(1) > 0;
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void deleteByNoAVS(String noAVS) {
+    Connection connection = activeJDBCConnection();
+    try {
+      PreparedStatement preparedStatement = connection.prepareStatement(
+          "DELETE FROM ALLOCATAIRES WHERE NO_AVS=?");
+      preparedStatement.setString(1, noAVS);
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void updateAllocataire(String noAVS, String nom, String prenom) {
+    Connection connection = activeJDBCConnection();
+    try {
+      PreparedStatement preparedStatement = connection.prepareStatement(
+          "UPDATE ALLOCATAIRES SET NOM=?, PRENOM=? WHERE NO_AVS=?");
+      preparedStatement.setString(1, nom);
+      preparedStatement.setString(2, prenom);
+      preparedStatement.setString(3, noAVS);
+      preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
 }

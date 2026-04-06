@@ -60,6 +60,33 @@ public class RESTController {
         return inTransaction(() -> allocationService.findAllAllocataires(start));
     }
 
+        @DeleteMapping("/allocataires/{noAVS}")
+    public ResponseEntity<String> deleteAllocataire(@PathVariable("noAVS") String noAVS) {
+        try {
+            inTransaction(() -> { allocationService.deleteAllocataire(noAVS); return null; });
+            return ResponseEntity.ok("Allocataire supprimé");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(409).body(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/allocataires/{noAVS}")
+    public ResponseEntity<String> updateAllocataire(
+            @PathVariable("noAVS") String noAVS,
+            @RequestBody java.util.Map<String, String> body) {
+        try {
+            String nom = body.get("nom");
+            String prenom = body.get("prenom");
+            inTransaction(() -> { allocationService.updateAllocataire(noAVS, nom, prenom); return null; });
+            return ResponseEntity.ok("Allocataire modifié");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
     @GetMapping("/allocations")
     public List<Allocation> allocations() {
         return inTransaction(allocationService::findAllocationsActuelles);

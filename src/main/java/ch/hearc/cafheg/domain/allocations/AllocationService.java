@@ -30,6 +30,27 @@ public class AllocationService {
         return allocationMapper.findAll();
     }
 
+    public void deleteAllocataire(String noAVS) {
+        if (allocataireMapper.findByNoAVS(noAVS) == null) {
+            throw new IllegalArgumentException("Allocataire non trouvé");
+        }
+        if (allocataireMapper.hasVersements(noAVS)) {
+            throw new IllegalStateException("Impossible de supprimer un allocataire qui possède des versements");
+        }
+        allocataireMapper.deleteByNoAVS(noAVS);
+    }
+
+    public void updateAllocataire(String noAVS, String nom, String prenom) {
+        Allocataire existing = allocataireMapper.findByNoAVS(noAVS);
+        if (existing == null) {
+            throw new IllegalArgumentException("Allocataire non trouvé");
+        }
+        if (existing.getNom().equals(nom) && existing.getPrenom().equals(prenom)) {
+            throw new IllegalArgumentException("Aucune modification détectée");
+        }
+        allocataireMapper.updateAllocataire(noAVS, nom, prenom);
+    }
+
     public String getParentDroitAllocation(ParentDroitAllocationRequest request) {
         System.out.println("Déterminer quel parent a le droit aux allocations");
 

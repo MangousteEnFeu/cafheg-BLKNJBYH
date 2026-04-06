@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.function.Supplier;
 
+
 public class Database {
   /** Pool de connections JDBC */
   private static DataSource dataSource;
@@ -52,6 +53,14 @@ public class Database {
       connection.remove();
     }
   }
+
+    public static void inTransaction(Runnable inTransaction) {
+    inTransaction(() -> {
+      inTransaction.run();
+      return null;
+    });
+  }
+
 
   DataSource dataSource() {
     return dataSource;

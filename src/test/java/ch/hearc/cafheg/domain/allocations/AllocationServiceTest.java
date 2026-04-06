@@ -71,6 +71,75 @@ class AllocationServiceTest {
                 () -> assertThat(all.get(1).getFin()).isNull());
     }
 
+        // --- Tests Exercice 2 : Suppression ---
+
+    @Test
+    void deleteAllocataire_whenNoVersements_shouldDelete() {
+        Mockito.when(allocataireMapper.findByNoAVS("1000-2000"))
+                .thenReturn(new Allocataire(new NoAVS("1000-2000"), "Geiser", "Arnaud"));
+        Mockito.when(allocataireMapper.hasVersements("1000-2000")).thenReturn(false);
+        allocationService.deleteAllocataire("1000-2000");
+        Mockito.verify(allocataireMapper).deleteByNoAVS("1000-2000");
+    }
+
+    @Test
+    void deleteAllocataire_whenHasVersements_shouldThrow() {
+        Mockito.when(allocataireMapper.findByNoAVS("1000-2000"))
+                .thenReturn(new Allocataire(new NoAVS("1000-2000"), "Geiser", "Arnaud"));
+        Mockito.when(allocataireMapper.hasVersements("1000-2000")).thenReturn(true);
+        assertThat(org.junit.jupiter.api.Assertions.assertThrows(
+                IllegalStateException.class,
+                () -> allocationService.deleteAllocataire("1000-2000")
+        ).getMessage()).contains("versements");
+    }
+
+    @Test
+    void deleteAllocataire_whenNotFound_shouldThrow() {
+        Mockito.when(allocataireMapper.findByNoAVS("9999-9999")).thenReturn(null);
+        org.junit.jupiter.api.Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> allocationService.deleteAllocataire("9999-9999")
+        );
+    }
+
+    // --- Tests Exercice 2 : Modification ---
+
+    @Test
+    void updateAllocataire_whenNameChanged_shouldUpdate() {
+        Mockito.when(allocataireMapper.findByNoAVS("1000-2000"))
+                .thenReturn(new Allocataire(new NoAVS("1000-2000"), "Geiser", "Arnaud"));
+        allocationService.updateAllocataire("1000-2000", "Müller", "Arnaud");
+        Mockito.verify(allocataireMapper).updateAllocataire("1000-2000", "Müller", "Arnaud");
+    }
+
+    @Test
+    void updateAllocataire_whenPrenomChanged_shouldUpdate() {
+        Mockito.when(allocataireMapper.findByNoAVS("1000-2000"))
+                .thenReturn(new Allocataire(new NoAVS("1000-2000"), "Geiser", "Arnaud"));
+        allocationService.updateAllocataire("1000-2000", "Geiser", "Pierre");
+        Mockito.verify(allocataireMapper).updateAllocataire("1000-2000", "Geiser", "Pierre");
+    }
+
+    @Test
+    void updateAllocataire_whenNothingChanged_shouldThrow() {
+        Mockito.when(allocataireMapper.findByNoAVS("1000-2000"))
+                .thenReturn(new Allocataire(new NoAVS("1000-2000"), "Geiser", "Arnaud"));
+        assertThat(org.junit.jupiter.api.Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> allocationService.updateAllocataire("1000-2000", "Geiser", "Arnaud")
+        ).getMessage()).contains("modification");
+    }
+
+    @Test
+    void updateAllocataire_whenNotFound_shouldThrow() {
+        Mockito.when(allocataireMapper.findByNoAVS("9999-9999")).thenReturn(null);
+        org.junit.jupiter.api.Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> allocationService.updateAllocataire("9999-9999", "Nom", "Prenom")
+        );
+    }
+
+
     @Test
     void getParentDroitAllocation_whenOnlyParent1Active_returnsParent1() {
         ParentDroitAllocationRequest request = new ParentDroitAllocationRequest();

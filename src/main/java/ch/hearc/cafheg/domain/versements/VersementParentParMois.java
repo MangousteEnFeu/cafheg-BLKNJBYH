@@ -30,4 +30,8 @@ public class VersementParentParMois {
   public LocalDate getMois() {
     return mois;
   }
+
+  public LocalDate getDateVersement() {
+    return dateVersement;
+  }
 }
