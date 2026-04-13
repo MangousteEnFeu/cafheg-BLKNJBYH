@@ -2,11 +2,15 @@ package ch.hearc.cafheg.domain.allocations;
 
 import ch.hearc.cafheg.infrastructure.persistence.AllocataireMapper;
 import ch.hearc.cafheg.infrastructure.persistence.AllocationMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 
 public class AllocationService {
+
+    private static final Logger log = LoggerFactory.getLogger(AllocationService.class);
 
     private static final String PARENT_1 = "Parent1";
     private static final String PARENT_2 = "Parent2";
@@ -22,7 +26,7 @@ public class AllocationService {
     }
 
     public List<Allocataire> findAllAllocataires(String likeNom) {
-        System.out.println("Rechercher tous les allocataires");
+        log.info("Rechercher tous les allocataires");
         return allocataireMapper.findAll(likeNom);
     }
 
@@ -52,7 +56,7 @@ public class AllocationService {
     }
 
     public String getParentDroitAllocation(ParentDroitAllocationRequest request) {
-        System.out.println("Déterminer quel parent a le droit aux allocations");
+        log.info("Déterminer quel parent a le droit aux allocations");
 
         if (request.isParent1ActiviteLucrative() && !request.isParent2ActiviteLucrative()) {
             return PARENT_1;

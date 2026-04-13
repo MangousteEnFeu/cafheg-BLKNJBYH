@@ -1,6 +1,8 @@
 package ch.hearc.cafheg;
 
 import ch.hearc.cafheg.infrastructure.persistence.Database;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -9,14 +11,12 @@ import org.springframework.core.env.Environment;
 @SpringBootApplication
 public class CafhegApplication {
 
+    private static final Logger log = LoggerFactory.getLogger(CafhegApplication.class);
+
     public static void main(String[] args) {
         ConfigurableApplicationContext ctx = SpringApplication.run(CafhegApplication.class, args);
         startDatabase(ctx.getEnvironment());
-        System.out.println("""
-                                   
-                                   Swagger UI:\t http://localhost:8080/api/swagger-ui/index.html
-                                   
-                                   """);
+        log.info("Swagger UI disponible sur http://localhost:8080/api/swagger-ui/index.html");
     }
 
     private static void startDatabase(Environment env) {

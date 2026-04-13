@@ -13,8 +13,12 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PDFExporter {
+
+    private static final Logger log = LoggerFactory.getLogger(PDFExporter.class);
 
     private final EnfantMapper enfantMapper;
     private final static PDType1Font DEFAULT_FONT;
@@ -29,7 +33,7 @@ public class PDFExporter {
 
     public byte[] generatePDFVversement(Allocataire allocataire,
             Map<LocalDate, Montant> montantParMois) {
-        System.out.println("Génération du PDF des versements");
+        log.info("Génération du PDF des versements");
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             PDDocument document = new PDDocument();
@@ -68,19 +72,18 @@ public class PDFExporter {
             document.save(baos);
             document.close();
 
-            System.out.println("PDF généré");
+            log.info("PDF des versements généré");
             return baos.toByteArray();
 
-
-        } catch (
-                IOException e) {
+        } catch (IOException e) {
+            log.error("Erreur lors de la génération du PDF des versements", e);
             throw new RuntimeException(e);
         }
     }
 
     public byte[] generatePDFAllocataire(Allocataire allocataire,
             Map<Long, Montant> montantsParEnfant) {
-        System.out.println("Génération du PDF pour un allocataire");
+        log.info("Génération du PDF pour un allocataire");
 
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -123,10 +126,10 @@ public class PDFExporter {
             document.save(baos);
             document.close();
 
-            System.out.println("PDF généré");
+            log.info("PDF allocataire généré");
             return baos.toByteArray();
-        } catch (
-                IOException e) {
+        } catch (IOException e) {
+            log.error("Erreur lors de la génération du PDF allocataire", e);
             throw new RuntimeException(e);
         }
     }
