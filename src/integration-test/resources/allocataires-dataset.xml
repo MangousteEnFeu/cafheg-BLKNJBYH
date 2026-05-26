@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <allocataires NUMERO="9001" NO_AVS="756.0000.0001.01" PRENOM="TestPrenom" NOM="TestNom"/>
+    <allocataires NUMERO="9002" NO_AVS="756.0000.0002.02" PRENOM="ModifPrenom" NOM="ModifNom"/>
+</dataset>

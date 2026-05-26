@@ -1,0 +1,11 @@
+2026-04-30 18:37:53.194 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Rechercher tous les allocataires
+2026-04-30 18:37:53.234 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-04-30 18:37:53.263 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-04-30 18:37:53.267 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-04-30 18:37:53.270 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-04-30 18:37:53.340 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-04-30 18:37:53.343 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Rechercher tous les allocataires
+2026-04-30 18:37:56.508 [main] INFO  c.hearc.cafheg.domain.versements.VersementService - Exporter le PDF des allocations pour l'allocataire 1
+2026-04-30 18:37:56.624 [main] INFO  c.hearc.cafheg.domain.versements.VersementService - Rechercher la somme des allocations pour l'année 2019
+2026-04-30 18:37:56.631 [main] INFO  c.hearc.cafheg.domain.versements.VersementService - Rechercher la somme des allocations de naissances pour l'année 2019
+2026-04-30 18:37:56.638 [main] INFO  c.hearc.cafheg.domain.versements.VersementService - Exporter le PDF des versements pour l'allocataire 1
