@@ -14,17 +14,10 @@ import java.util.function.Supplier;
 public class Database {
 
   private static final Logger log = LoggerFactory.getLogger(Database.class);
-  /** Pool de connections JDBC */
-  private static DataSource dataSource;
 
-  /** Connection JDBC active par utilisateur/thread (ThreadLocal) */
+  private static DataSource dataSource;
   private static final ThreadLocal<Connection> connection = new ThreadLocal<>();
 
-  /**
-   * Retourne la transaction active ou throw une Exception si pas de transaction
-   * active.
-   * @return Connection JDBC active
-   */
   static Connection activeJDBCConnection() {
     if (connection.get() == null) {
       throw new RuntimeException("Pas de connection JDBC active");
@@ -32,12 +25,6 @@ public class Database {
     return connection.get();
   }
 
-  /**
-   * Exécution d'une fonction dans une transaction.
-   * @param inTransaction La fonction a exécuter au travers d'une transaction
-   * @param <T> Le type du retour de la fonction
-   * @return Le résultat de l'exécution de la fonction
-   */
   public static <T> T inTransaction(Supplier<T> inTransaction) {
     log.debug("inTransaction#start");
     try {
@@ -60,21 +47,17 @@ public class Database {
     }
   }
 
-    public static void inTransaction(Runnable inTransaction) {
+  public static void inTransaction(Runnable inTransaction) {
     inTransaction(() -> {
       inTransaction.run();
       return null;
     });
   }
 
-
   DataSource dataSource() {
     return dataSource;
   }
 
-  /**
-   * Initialisation du pool de connections.
-   */
   public void start(String jdbcUrl, String username, String password) {
     log.info("Initializing datasource");
     HikariConfig config = new HikariConfig();

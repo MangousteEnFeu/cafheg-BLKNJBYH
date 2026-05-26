@@ -3,7 +3,7 @@
 
     <!-- ===== APPENDERS ===== -->
 
-    <!-- 1. Console : DEBUG et au-dessus, tous les packages -->
+    <!-- Console : DEBUG et au-dessus -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>DEBUG</level>
@@ -13,7 +13,7 @@
         </encoder>
     </appender>
 
-    <!-- 2. err.log : uniquement ERROR, packages ch.* -->
+    <!-- err.log : uniquement ERROR, packages ch.* -->
     <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>err.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -29,12 +29,7 @@
         </encoder>
     </appender>
 
-    <!--
-        3. cafheg_{date-jour}.log : INFO et au-dessus, packages de services.
-           Pas de tag <file> : le TimeBasedRollingPolicy gère lui-même le nom
-           du fichier courant via fileNamePattern, ce qui garantit un nouveau
-           fichier à chaque minuit.
-    -->
+    <!-- cafheg_{date-jour}.log : INFO et au-dessus, packages de services -->
     <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
@@ -49,17 +44,17 @@
 
     <!-- ===== LOGGERS ===== -->
 
-    <!-- ERROR dans les packages ch.* → err.log (en plus du root) -->
+    <!-- ERROR dans les packages ch.* -> err.log -->
     <logger name="ch" level="DEBUG" additivity="true">
         <appender-ref ref="FILE_ERROR"/>
     </logger>
 
-    <!-- INFO dans les packages de services → cafheg_{date}.log (en plus du root) -->
+    <!-- INFO dans les packages de services -> cafheg_{date}.log -->
     <logger name="ch.hearc.cafheg.domain" level="DEBUG" additivity="true">
         <appender-ref ref="FILE_INFO"/>
     </logger>
 
-    <!-- Root : DEBUG → console -->
+    <!-- Root : DEBUG -> console -->
     <root level="DEBUG">
         <appender-ref ref="CONSOLE"/>
     </root>
