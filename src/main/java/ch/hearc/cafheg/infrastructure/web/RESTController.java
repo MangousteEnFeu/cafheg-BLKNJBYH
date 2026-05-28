@@ -112,19 +112,27 @@ public class RESTController {
 
     @GetMapping(value = "/allocataires/{allocataireId}/allocations", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> pdfAllocations(@PathVariable("allocataireId") int allocataireId) {
-        byte[] pdf = inTransaction(() -> versementService.exportPDFAllocataire(allocataireId));
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=\"allocations_" + allocataireId + ".pdf\"");
-        headers.add("Access-Control-Expose-Headers", "Content-Disposition");
-        return ResponseEntity.ok().headers(headers).body(pdf);
+        try {
+            byte[] pdf = inTransaction(() -> versementService.exportPDFAllocataire(allocataireId));
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Disposition", "attachment; filename=\"allocations_" + allocataireId + ".pdf\"");
+            headers.add("Access-Control-Expose-Headers", "Content-Disposition");
+            return ResponseEntity.ok().headers(headers).body(pdf);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping(value = "/allocataires/{allocataireId}/versements", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> pdfVersements(@PathVariable("allocataireId") int allocataireId) {
-        byte[] pdf = inTransaction(() -> versementService.exportPDFVersements(allocataireId));
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=\"versements_" + allocataireId + ".pdf\"");
-        headers.add("Access-Control-Expose-Headers", "Content-Disposition");
-        return ResponseEntity.ok().headers(headers).body(pdf);
+        try {
+            byte[] pdf = inTransaction(() -> versementService.exportPDFVersements(allocataireId));
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Content-Disposition", "attachment; filename=\"versements_" + allocataireId + ".pdf\"");
+            headers.add("Access-Control-Expose-Headers", "Content-Disposition");
+            return ResponseEntity.ok().headers(headers).body(pdf);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

@@ -3,6 +3,7 @@ package ch.hearc.cafheg.domain.allocations;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CantonTest {
 
@@ -12,8 +13,8 @@ class CantonTest {
   }
 
   @Test
-  void fromValue_GivenMM_ShouldBeNull() {
-    assertThat(Canton.fromValue("MM")).isNull();
+  void fromValue_GivenUnknownValue_ShouldThrow() {
+    assertThrows(IllegalArgumentException.class, () -> Canton.fromValue("MM"));
   }
 
 }

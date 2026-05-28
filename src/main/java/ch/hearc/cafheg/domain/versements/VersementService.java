@@ -41,11 +41,14 @@ public class VersementService {
         .filter(v -> v.getParentId() == allocataireId)
         .collect(toMap(VersementParentParMois::getMois,
             v -> new Montant(v.getMontant().getValue()),
-            (v1, v2) -> new Montant(v1.value.add(v2.value))));
+            (v1, v2) -> new Montant(v1.getValue().add(v2.getValue()))));
 
     Allocataire allocataire = allocataireMapper.findById(allocataireId);
+    if (allocataire == null) {
+      throw new IllegalArgumentException("Allocataire non trouvé : " + allocataireId);
+    }
 
-    return pdfExporter.generatePDFVversement(allocataire, montantParMois);
+    return pdfExporter.generatePDFVersement(allocataire, montantParMois);
   }
 
   public Montant findSommeAllocationNaissanceParAnnee(int year) {
@@ -72,6 +75,9 @@ public class VersementService {
             VersementParentEnfant::getMontant, (v1, v2) -> v1));
 
     Allocataire allocataire = allocataireMapper.findById(allocataireId);
+    if (allocataire == null) {
+      throw new IllegalArgumentException("Allocataire non trouvé : " + allocataireId);
+    }
 
     return pdfExporter.generatePDFAllocataire(allocataire, montantsParEnfant);
   }
