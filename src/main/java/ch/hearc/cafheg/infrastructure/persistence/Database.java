@@ -31,6 +31,9 @@ public class Database {
       log.debug("inTransaction#getConnection");
       connection.set(dataSource.getConnection());
       return inTransaction.get();
+    } catch (RuntimeException e) {
+      log.error("Erreur lors de l'exécution de la transaction", e);
+      throw e;
     } catch (Exception e) {
       log.error("Erreur lors de l'exécution de la transaction", e);
       throw new RuntimeException(e);

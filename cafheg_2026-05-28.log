@@ -1,0 +1,22 @@
+2026-05-28 18:55:07.221 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.226 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Rechercher tous les allocataires
+2026-05-28 18:55:07.244 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.246 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.251 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.253 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.279 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.281 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.282 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.283 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.285 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.287 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.318 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.321 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.323 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.326 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.327 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Déterminer quel parent a le droit aux allocations
+2026-05-28 18:55:07.329 [main] INFO  c.h.cafheg.domain.allocations.AllocationService - Rechercher tous les allocataires
+2026-05-28 18:55:09.143 [main] INFO  c.hearc.cafheg.domain.versements.VersementService - Exporter le PDF des allocations pour l'allocataire 1
+2026-05-28 18:55:09.235 [main] INFO  c.hearc.cafheg.domain.versements.VersementService - Rechercher la somme des allocations pour l'année 2019
+2026-05-28 18:55:09.239 [main] INFO  c.hearc.cafheg.domain.versements.VersementService - Rechercher la somme des allocations de naissances pour l'année 2019
+2026-05-28 18:55:09.242 [main] INFO  c.hearc.cafheg.domain.versements.VersementService - Exporter le PDF des versements pour l'allocataire 1

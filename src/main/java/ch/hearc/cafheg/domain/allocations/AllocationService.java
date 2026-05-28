@@ -31,6 +31,7 @@ public class AllocationService {
     }
 
     public List<Allocation> findAllocationsActuelles() {
+        log.info("Rechercher toutes les allocations actuelles");
         return allocationMapper.findAll();
     }
 
