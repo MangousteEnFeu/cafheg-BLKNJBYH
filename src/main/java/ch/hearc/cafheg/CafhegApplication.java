@@ -15,8 +15,11 @@ public class CafhegApplication {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext ctx = SpringApplication.run(CafhegApplication.class, args);
-        startDatabase(ctx.getEnvironment());
-        log.info("Swagger UI disponible sur http://localhost:8080/api/swagger-ui/index.html");
+        Environment env = ctx.getEnvironment();
+        startDatabase(env);
+        String port = env.getProperty("server.port", "8080");
+        String contextPath = env.getProperty("server.servlet.context-path", "");
+        log.info("Swagger UI disponible sur http://localhost:{}{}/swagger-ui/index.html", port, contextPath);
     }
 
     private static void startDatabase(Environment env) {

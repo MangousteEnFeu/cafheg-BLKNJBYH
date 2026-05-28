@@ -87,7 +87,7 @@ class VersementServiceTest {
 
     byte[] bytes = versementService.exportPDFAllocataire(1L);
 
-    assertThat(bytes.length).isNotNull();
+    assertThat(bytes).isNotEmpty();
   }
 
   @Test
@@ -105,7 +105,7 @@ class VersementServiceTest {
 
     byte[] bytes = versementService.exportPDFVersements(1L);
 
-    assertThat(bytes.length).isNotNull();
+    assertThat(bytes).isNotEmpty();
   }
 
 }
