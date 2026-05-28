@@ -12,7 +12,7 @@
     <artifactId>cafheg</artifactId>
     <version>2.0.0</version>
     <name>cafheg</name>
-    <description>cafheg</description>
+    <description>Gestion des allocations familiales (CAF HEG) — projet étudiant HES-SO</description>
     <properties>
         <java.version>17</java.version>
         <springdoc-openapi-starter-webmvc-ui.version>3.0.1</springdoc-openapi-starter-webmvc-ui.version>

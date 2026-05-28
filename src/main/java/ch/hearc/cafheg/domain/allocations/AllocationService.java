@@ -49,6 +49,9 @@ public class AllocationService {
         if (existing == null) {
             throw new IllegalArgumentException("Allocataire non trouvé");
         }
+        if (nom == null || prenom == null) {
+            throw new IllegalArgumentException("Le nom et le prénom sont obligatoires");
+        }
         if (existing.getNom().equals(nom) && existing.getPrenom().equals(prenom)) {
             throw new IllegalArgumentException("Aucune modification détectée");
         }
@@ -119,9 +122,9 @@ public class AllocationService {
             // Cas d : aucun ne vit avec l'enfant (ou les deux y vivent)
             // -> celui qui travaille dans le canton de domicile de l'enfant
             boolean parent1TravailleDansCantonEnfant = enfantResidence != null
-                    && enfantResidence.equals(request.getParent1Residence());
+                    && enfantResidence.equals(request.getParent1CantonTravail());
             boolean parent2TravailleDansCantonEnfant = enfantResidence != null
-                    && enfantResidence.equals(request.getParent2Residence());
+                    && enfantResidence.equals(request.getParent2CantonTravail());
 
             if (parent1TravailleDansCantonEnfant && !parent2TravailleDansCantonEnfant) {
                 return PARENT_1;

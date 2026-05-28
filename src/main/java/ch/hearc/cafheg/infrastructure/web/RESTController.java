@@ -39,13 +39,20 @@ public class RESTController {
     // Headers de la requête HTTP doit contenir "Content-Type: application/json"
     // BODY de la requête HTTP à transmettre afin de tester le endpoint
     {
-        "enfantResidence" : "Neuchâtel",
-        "parent1Residence" : "Neuchâtel",
-        "parent2Residence" : "Bienne",
+        "enfantResidence"          : "Neuchâtel",
+        "parent1Residence"         : "Neuchâtel",
+        "parent2Residence"         : "Bienne",
+        "parent1CantonTravail"     : "Neuchâtel",
+        "parent2CantonTravail"     : "Bienne",
         "parent1ActiviteLucrative" : true,
         "parent2ActiviteLucrative" : true,
-        "parent1Salaire" : 2500,
-        "parent2Salaire" : 3000
+        "parent1AutoriteParentale" : true,
+        "parent2AutoriteParentale" : true,
+        "parentsEnsemble"          : false,
+        "parent1Independant"       : false,
+        "parent2Independant"       : false,
+        "parent1Salaire"           : 2500,
+        "parent2Salaire"           : 3000
     }
      */
     @PostMapping("/droits/quel-parent")
@@ -60,7 +67,7 @@ public class RESTController {
         return inTransaction(() -> allocationService.findAllAllocataires(start));
     }
 
-        @DeleteMapping("/allocataires/{noAVS}")
+    @DeleteMapping("/allocataires/{noAVS}")
     public ResponseEntity<String> deleteAllocataire(@PathVariable("noAVS") String noAVS) {
         try {
             inTransaction(() -> { allocationService.deleteAllocataire(noAVS); return null; });

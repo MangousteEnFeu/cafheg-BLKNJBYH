@@ -15,6 +15,8 @@ public class ParentDroitAllocationRequest {
     private boolean parent2AutoriteParentale;
     private boolean parent1Independant;
     private boolean parent2Independant;
+    private String parent1CantonTravail;
+    private String parent2CantonTravail;
 
     public String getEnfantResidence() {
         return enfantResidence;
@@ -110,5 +112,21 @@ public class ParentDroitAllocationRequest {
 
     public void setParent2Independant(boolean parent2Independant) {
         this.parent2Independant = parent2Independant;
+    }
+
+    public String getParent1CantonTravail() {
+        return parent1CantonTravail;
+    }
+
+    public void setParent1CantonTravail(String parent1CantonTravail) {
+        this.parent1CantonTravail = parent1CantonTravail;
+    }
+
+    public String getParent2CantonTravail() {
+        return parent2CantonTravail;
+    }
+
+    public void setParent2CantonTravail(String parent2CantonTravail) {
+        this.parent2CantonTravail = parent2CantonTravail;
     }
 }

@@ -136,6 +136,16 @@ class AllocationServiceTest {
     }
 
     @Test
+    void updateAllocataire_whenNomNull_shouldThrow() {
+        Mockito.when(allocataireMapper.findByNoAVS("1000-2000"))
+                .thenReturn(new Allocataire(new NoAVS("1000-2000"), "Geiser", "Arnaud"));
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> allocationService.updateAllocataire("1000-2000", null, "Arnaud")
+        );
+    }
+
+    @Test
     void updateAllocataire_whenNotFound_shouldThrow() {
         Mockito.when(allocataireMapper.findByNoAVS("9999-9999")).thenReturn(null);
         assertThrows(
@@ -207,33 +217,29 @@ class AllocationServiceTest {
     //             celui qui travaille dans le canton de l'enfant ---
 
     @Test
-    void getParentDroitAllocation_casD_separes_aucunVitAvecEnfant_parent1DansCantonEnfant() {
-        ParentDroitAllocationRequest req = buildRequestSepares("Lausanne", "Lausanne", "Genève");
-        // Parent1 résidence = Lausanne = enfant -> parent1 travaille dans canton enfant
-        // Mais ici parent1 vit aussi avec l'enfant... on a besoin d'un cas où aucun ne vit avec
-        // Pour un vrai cas d : les deux vivent ailleurs que l'enfant
-        req.setEnfantResidence("Fribourg");
-        req.setParent1Residence("Fribourg"); // parent1 travaille dans le canton de l'enfant
-        req.setParent2Residence("Genève");
+    void getParentDroitAllocation_casD_separes_aucunVitAvecEnfant_parent1TravailleDansCantonEnfant() {
+        // enfant à Fribourg, aucun parent n'y vit, parent1 y travaille
+        ParentDroitAllocationRequest req = buildRequestSepares("Fribourg", "Berne", "Genève");
+        req.setParent1CantonTravail("Fribourg");
+        req.setParent2CantonTravail("Zurich");
         assertThat(allocationService.getParentDroitAllocation(req)).isEqualTo("Parent1");
     }
 
     @Test
-    void getParentDroitAllocation_casD_separes_parent2TravailleDansCantonEnfant() {
-        ParentDroitAllocationRequest req = buildRequestSepares("Zurich", "Berne", "Zurich");
-        // enfant vit à Zurich, parent1 à Berne, parent2 à Zurich
-        // parent2 vit avec l'enfant -> cas c, pas d
-        // Changeons : enfant à Fribourg, aucun n'y vit, mais parent2 y travaille
-        req.setEnfantResidence("Fribourg");
-        req.setParent1Residence("Berne");
-        req.setParent2Residence("Fribourg");
+    void getParentDroitAllocation_casD_separes_aucunVitAvecEnfant_parent2TravailleDansCantonEnfant() {
+        // enfant à Fribourg, aucun parent n'y vit, parent2 y travaille
+        ParentDroitAllocationRequest req = buildRequestSepares("Fribourg", "Berne", "Genève");
+        req.setParent1CantonTravail("Berne");
+        req.setParent2CantonTravail("Fribourg");
         assertThat(allocationService.getParentDroitAllocation(req)).isEqualTo("Parent2");
     }
 
     @Test
     void getParentDroitAllocation_separes_aucunDansCantonEnfant_salairePlusEleve() {
+        // enfant à Fribourg, aucun parent n'y vit ni n'y travaille -> salaire le plus élevé
         ParentDroitAllocationRequest req = buildRequestSepares("Fribourg", "Berne", "Genève");
-        // Aucun ne vit à Fribourg ni ne travaille à Fribourg
+        req.setParent1CantonTravail("Berne");
+        req.setParent2CantonTravail("Genève");
         req.setParent1Salaire(BigDecimal.valueOf(5000));
         req.setParent2Salaire(BigDecimal.valueOf(3000));
         assertThat(allocationService.getParentDroitAllocation(req)).isEqualTo("Parent1");
